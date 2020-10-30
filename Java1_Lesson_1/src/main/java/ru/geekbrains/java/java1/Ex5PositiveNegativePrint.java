@@ -13,6 +13,7 @@ public class Ex5PositiveNegativePrint {
         System.out.print("Введите целое число (от -2147483648 до 2147483647): ");
         int a = scan.nextInt();
         positiveNegativePrint(a);
+        scan.close();
     }
 
     public static void positiveNegativePrint(int a) {

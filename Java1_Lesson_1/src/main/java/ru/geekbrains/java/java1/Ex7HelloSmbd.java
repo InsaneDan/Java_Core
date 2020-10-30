@@ -12,6 +12,7 @@ public class Ex7HelloSmbd {
         System.out.print("Представтесь, пожалуйста: ");
         String s = scan.next();
         helloDude(s);
+        scan.close();
     }
 
     public static void helloDude(String s) {

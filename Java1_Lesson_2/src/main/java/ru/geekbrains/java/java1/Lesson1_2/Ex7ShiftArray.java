@@ -33,6 +33,7 @@ public class Ex7ShiftArray {
         if (shift < 0) {
             shift = arr.length + shift; // если указан сдвиг влево, преобразовать к сдвигу вправо
         }
+        scanner.close();
         return shift;
     }
 

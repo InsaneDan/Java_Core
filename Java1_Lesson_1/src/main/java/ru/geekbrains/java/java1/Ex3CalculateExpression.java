@@ -31,5 +31,6 @@ public class Ex3CalculateExpression {
         long result = сalculation(a, b, c, d);
 //      вывод результата
         System.out.println("Результат вычисления: " + a + " * (" + b + " + (" + c + " / " + d + ")) = " + result);
+        scan.close();
     }
 }

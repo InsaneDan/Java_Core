@@ -17,6 +17,7 @@ public class Ex8LeapYear {
             if (y == 0) {break;}
             leapYear(y);
         }
+        scan.close();
     }
 
     public static void leapYear(int y) {

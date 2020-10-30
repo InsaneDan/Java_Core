@@ -26,6 +26,7 @@ public class Ex4CheckSumm {
         System.out.print("b = ");
         int b = scan.nextInt();
         System.out.println("Сумма чисел находится в диапазоне 10..20 (включительно): " + сheckSumm(a, b));
+        scan.close();
     }
 
 }

@@ -18,6 +18,7 @@ public class Ex4Diagonals {
         diagonals1(arr);
         System.out.println("Способ 2:"); // цикл с двумя переменными
         diagonals2(arr);
+        scan.close();
     }
 
     // вложенные циклы с проверкой условий

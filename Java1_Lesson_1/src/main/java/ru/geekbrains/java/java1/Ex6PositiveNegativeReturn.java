@@ -12,6 +12,7 @@ public class Ex6PositiveNegativeReturn {
         System.out.print("Введите целое число (от -2147483648 до 2147483647): ");
         int a = scan.nextInt();
         positiveNegativeReturn(a);
+        scan.close();
     }
 
     public static void positiveNegativeReturn(int a) {
