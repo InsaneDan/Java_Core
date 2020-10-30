@@ -1,16 +1,17 @@
 package ru.geekbrains.java.java1;
 
+//import java.util.Random;
 import java.util.Scanner;
 
 public class GuessTheNumber {
 
     private static Scanner scanner = new Scanner(System.in);
-    private static int range = 9;
-    private static int attempts = 3;
 
     public static void main(String[] args) {
+        int range = 9;
         do {
-            int number = (int) (Math.random() * range); // "случайное" число
+            int number = (int) (Math.random() * (range + 1)); // "случайное" число в рамках диапазона (random не достигает 1)
+            // или Random number = new Random(range + 1);
             System.out.println("Угадайте число от 0 до " + range + "."); // заголовок - задание
             playGame(number); // пытаемся угадать число
         } while (repeatGame()); // повторить игру?
@@ -30,6 +31,7 @@ public class GuessTheNumber {
     }
 
    private static void playGame (int number) {
+       int attempts = 3;
        for (int i = 0; i < attempts; i++) {
            System.out.print("Осталось попыток: " + (attempts - i) + ". Ваш ответ: ");
            int answer = scanner.nextInt();
@@ -37,7 +39,7 @@ public class GuessTheNumber {
                System.out.println("Загаданное число меньше.");
            } else if (answer < number) {
                 System.out.println("Загаданное число больше.");
-           } else if (answer == number) {
+           } else { // answer == number
                 System.out.println("Именно это число и было загадано!");
                 return;
            }
