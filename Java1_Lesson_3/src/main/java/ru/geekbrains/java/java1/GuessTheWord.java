@@ -31,6 +31,7 @@ char a = str.charAt(0); - метод, вернет char, который стои
             System.out.println("Try to guess a fruit."); // заголовок - задание
             playGame(index); // пытаемся угадать слово
         } while (repeatGame()); // повторить игру?
+        scanner.close();
     }
 
     private static void playGame (int index) {

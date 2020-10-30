@@ -14,6 +14,7 @@ public class GuessTheNumber {
             System.out.println("Угадайте число от 0 до " + range + "."); // заголовок - задание
             playGame(number); // пытаемся угадать число
         } while (repeatGame()); // повторить игру?
+        scanner.close();
     }
 
     public static boolean repeatGame() {
