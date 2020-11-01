@@ -23,34 +23,28 @@ public class TicTacToe {
         printMap(); // вывод поля с координатами
 
         /* количество ходов не может быть больше количества клеток. Используем обычынй цикл for с инкрементом.
-         * В этом случае массив может быть полным только на последней итерации. */
+         * В этом случае массив может быть полным только на последней итерации.
+         * Или досрочный выход из цикла, если есть победитель. */
         for (int i = 0; i < SIZE * SIZE; i++) {
             System.out.println("Ход N" + (i + 1));
             // ход игрока ИЛИ рандом
-            if (player == DOT_X) {
-                xTurn(DOT_X);
-                player = DOT_O;
-            } else {
-                oTurn(DOT_O);
-                player = DOT_X;
+            switch (player) {
+                case DOT_X -> xTurn(DOT_X); //oTurn(DOT_X); // Comp vs comp
+                case DOT_O -> oTurn(DOT_O);
             }
-            // вывести поле
-            printMap();
+            printMap(); // вывести поле
             // если есть победитель - запомнить и выйти из цикла досрочно
-            if (checkWin(DOT_X)) {
-                winner = DOT_X;
-                moves = i + 1;
-                break;
-            } else if (checkWin(DOT_O)) {
-                winner = DOT_O;
-                moves = i + 1;
+            if (checkWin(player)) {
+                winner = player;
+                moves = i + 1; // счетчик ходов для вывода в консоль после выхода из цикла
                 break;
             }
+            player = (player == DOT_X) ? DOT_O : DOT_X;
         }
         //вывести в консоль, кто победил
         System.out.print("Игра закончена. ");
         switch (winner) {
-            case DOT_EMPTY -> System.out.println("Победителя нет - ничья.");
+            case DOT_EMPTY -> System.out.println("Победителя нет - ничья."); // победитель не определился, исходное значение
             case DOT_X -> System.out.println("Победили X за " + (moves / 2 + moves % 2) + " ходов");
             case DOT_O -> System.out.println("Победили O за " + (moves / 2) + " ходов");
         }
@@ -94,6 +88,17 @@ public class TicTacToe {
         return ++res;
     }
 
+    /** автоматических ход по случайным координатам (компьютер) */
+    public static void oTurn(char dot) {
+        int x, y;
+        do {
+            x = rand.nextInt(SIZE);
+            y = rand.nextInt(SIZE);
+        } while (isCellValid(x, y) != 3);
+        System.out.println("Ход " + dot + " в клетку: " + (x + 1) + " " + (y + 1));
+        map[y][x] = dot;
+    }
+
     /** ход по координатам, введенным вручную (человек) */
     public static void xTurn(char dot) {
         int x, y;
@@ -116,105 +121,35 @@ public class TicTacToe {
         return 2; // в остальных случаях - клетка занята
     }
 
-    /** првоерка победы по горизонтали в указанном ряду */
-    public static boolean checkRow(char symbol, int row) {
-        int counter = 0;
-        for (int i = 0; i < map[row].length; i++) {
-            if (counter == 0 && map[row].length - i < DOTS_TO_WIN) return false; // для выигрыша в этой строке уже не хватит ячеек => не победа (false)
-            counter = ((map[row][i] == symbol) ? counter + 1 : 0); // если встретился другой знак или пусто, то обнулить счетчик
-            if (counter == DOTS_TO_WIN) return true; // если набрали нужное количество символов в ряд => победа (true)
+    /** проверка последовательности символов в линии
+     *
+     * @param X, Y - координаты начала линии
+     * @param deltaX, deltaY - направление сдвига по осям X и Y; значения: 0 - нет сдвига, 1 - сдвиг на увеличение, -1 - на уменьшение
+     * @param symbol - проверяемый символ, значения: DOT_X | DOT_O
+     * (DOTS_TO_WIN - константа, количество подряд идущих символов, уменьшить на 1, т.к. индекс 1 элемента = 0)
+     * @return true - соблюдена последовательность указанных символов нужной длины
+     */
+    private static boolean checkLine(int X, int Y, int deltaX, int deltaY, char symbol) {
+        int resX = X + deltaX * (DOTS_TO_WIN - 1);
+        int resY = Y + deltaY * (DOTS_TO_WIN - 1);
+        if (resX > SIZE || resX < 0) return false; // линия закончится за пределами поля по горизонтали - false
+        if (resY > SIZE || resY < 0) return false; // линия закончится за пределами поля по вертикали - false
+        for (int i = 0; i < DOTS_TO_WIN; i++) { // перебор символов в ряду и проверка на соответствие
+            if (map[Y + i * deltaY][X + i * deltaX] != symbol) return false; // если не совпадает - false
         }
-        return false;
+        return true; // после перебора все символы в ряду совпали - true
     }
 
-    /** проверка победы вниз по вертикали в заданном ряду */
-    public static boolean checkColumn(char symbol, int row) {
-        if (map.length - row < DOTS_TO_WIN) return false; // если вертикаль меньше нужного количества символов - дальше не проверяем
-        int counter = 0;
-        for (int i = 0; i < map[row].length; i++) {
-            for (int j = row; j < row + DOTS_TO_WIN; j++) {
-                if (map[j][i] == symbol) {
-                    counter++;
-                } else {
-                    counter = 0;
-                    break;
-                }
-
-            }
-            if (counter == DOTS_TO_WIN) return true;
-        }
-        return false;
-    }
-
-    /** проверка победы по нисходящей горизонтали в указанном ряду */
-    public static boolean checkDiagonalDown(char symbol, int row) {
-        int counter = 0;
-        for (int i = 0; i < map[row].length - DOTS_TO_WIN + 1; i++) {
-            // если вертикаль не вмещает нужное количество символов или
-            // при нулевом счетчике горизонталь не содержит нужное количество символов - дальше не проверяем
-            if (map.length - row < DOTS_TO_WIN || (counter == 0 && map[row].length - i < DOTS_TO_WIN)) return false;
-            for (int j = row, k = i; j < row + DOTS_TO_WIN; j++, k++) {
-                if (map[j][k] == symbol) {
-                    counter++;
-                } else {
-                    counter = 0;
-                    break;
-                }
-            }
-            if (counter == DOTS_TO_WIN) return true;
-        }
-        return false;
-    }
-
-    /** проверка победы по восходящей горизонтали в указанном ряду */
-    public static boolean checkDiagonalUp(char symbol, int row) {
-        if (row < DOTS_TO_WIN) return false; // если нужное количество символов в диагонали не поместится - дальше не проверяем
-        int counter = 0;
-        for (int i = 0; i < map[row].length - DOTS_TO_WIN + 1; i++) {
-            if (counter == 0 && map[row].length - i < DOTS_TO_WIN) return false;
-            for (int j = row, k = i; j > row - DOTS_TO_WIN; j--, k++) {
-                if (map[j][k] == symbol) {
-                    counter++;
-                } else {
-                    counter = 0;
-                    break;
-                }
-            }
-            if (counter == DOTS_TO_WIN) return true;
-        }
-        return false;
-    }
     /** проверка победителя */
-    public static boolean checkWin(char symbol) {
-        for (int i = 0; i < map.length; i++) {
-            if (checkRow(symbol, i)) return true; // проверка горизонтали (слева направо)
-            if (checkColumn(symbol, i)) return true; // проверка вертикали (сверху вниз)
-                                                // матрица равносторонняя!, второй цикл для столбцов не создаем, проходим в том же цикле
-            if (checkDiagonalDown(symbol, i)) return true;// проверка нисходящей диагонали (\)
-            if (checkDiagonalUp(symbol, i)) return true;// проверка восходящей диагонали (/)
+    private static boolean checkWin(char symbol) {
+        for (int i = 0; i < SIZE; i++) { // проход по оси Y
+            for (int j = 0; j < SIZE; j++) { //проход по оси X
+                if (checkLine(j, i, 1, 0, symbol)) return true;   // проверка горизонтали (слева направо)
+                if (checkLine(j, i, 0, 1, symbol)) return true;   // проверка вертикали (сверху вниз)
+                if (checkLine(j, i, 1, 1, symbol)) return true;   // проверка восходящей диагонали (/)
+                if (checkLine(j, i, 1, -1, symbol)) return true;  // проверка нисходящей диагонали (\)
+            }
         }
-        return false;
+        return false; // нет возвращаемого результата - не победа
     }
-
-    /** автоматических ход по случайным координатам (компьютер) */
-    public static void oTurn(char dot) {
-        int x, y;
-        do {
-            x = rand.nextInt(SIZE);
-            y = rand.nextInt(SIZE);
-        } while (isCellValid(x, y) != 3);
-        System.out.println("Ход " + dot + " в клетку: " + (x + 1) + " " + (y + 1));
-        map[y][x] = dot;
-    }
-
-/*
-      1     2     3
-   ┌─────┬─────┬─────┐
-1  │     │     │  0  │
-   ├─────┼─────┼─────┤
-2  │     │  X  │     │
-   ├─────┼─────┼─────┤
-3  │     │     │     │
-   └─────┴─────┴─────┘
- рамки псевдографики на больших полях выглядит некрасиво */
 }
