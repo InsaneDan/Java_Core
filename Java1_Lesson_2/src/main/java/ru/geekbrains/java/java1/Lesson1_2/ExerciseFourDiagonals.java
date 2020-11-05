@@ -3,7 +3,7 @@ package ru.geekbrains.java.java1.Lesson1_2;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Ex4Diagonals {
+public class ExerciseFourDiagonals {
 
 /* 4. Создать квадратный двумерный целочисленный массив (количество строк и столбцов одинаковое),
     и с помощью цикла(-ов) заполнить его диагональные элементы единицами;*/
@@ -18,7 +18,6 @@ public class Ex4Diagonals {
         diagonals1(arr);
         System.out.println("Способ 2:"); // цикл с двумя переменными
         diagonals2(arr);
-        scan.close();
     }
 
     // вложенные циклы с проверкой условий

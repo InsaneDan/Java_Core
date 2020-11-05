@@ -4,7 +4,7 @@ import javax.naming.PartialResultException;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Ex7ShiftArray {
+public class ExerciseSevenShiftArray {
 
 /* 7. Написать метод, которому на вход подается одномерный массив и число n (может быть положительным,
     или отрицательным), при этом метод должен сместить все элементы массива на n позиций.
@@ -33,7 +33,6 @@ public class Ex7ShiftArray {
         if (shift < 0) {
             shift = arr.length + shift; // если указан сдвиг влево, преобразовать к сдвигу вправо
         }
-        scanner.close();
         return shift;
     }
 
