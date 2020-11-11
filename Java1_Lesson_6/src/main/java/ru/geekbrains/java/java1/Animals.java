@@ -10,8 +10,8 @@ package ru.geekbrains.java.java1;
 5.*Добавить животным разброс в ограничениях. То есть у одной собаки ограничение на бег может быть 400 м., у другой 600 м.
 */
 
-enum Actions {RUN, SWIM, JUMP;}; // набор доступных команд
-enum Creatures {dog, cat};
+enum Actions {RUN, SWIM, JUMP} // набор доступных команд
+enum Creatures {dog, cat}
 
 public class Animals {
     public static void main(String[] args) {
@@ -21,11 +21,13 @@ public class Animals {
         Dog dogCyber = new Dog("Кибердог", 50000, 1000, 2.5);
         Dog dogVeryOld = new Dog("Старик", 50, 1, 0.2);
 
-        // вместо cat1.getAnimalCounter() можно использовать любой из созданных объектов, они все могут использовать
-        // метод суперкласса getAnimalCounter(); соответственно и для вывода значения счетчика котов или собак можно
-        // использовать любой из объектов Cat и Dog соответственно.
+        // метод getAnimalCounter() в классе Animal (а также catCount и dogCount в своих классах) объявлены как static,
+        // доступ к нему можем получить через класс-потомок или через объекты:
+        // Animal.getAnimalCounter() - обращение к static методу абстрактного класса
+        // Dog.getDogCounter() - обращение к static методу private-package класса
+        // cat1.getCatCounter() - обращение к static методу private-package класса через объект
         System.out.println();
-        System.out.println("В нашем зоопарке сейчас " + cat1.getAnimalCounter() + " животных. Из них собак - " + dogOrdinary.getDogCounter() + ", котов - " + cat1.getCatCounter());
+        System.out.println("В нашем зоопарке сейчас " + Animal.getAnimalCounter() + " животных. Из них собак - " + Dog.getDogCounter() + ", котов - " + cat1.getCatCounter());
         System.out.println("\nПриступим к тренировке...");
 
         System.out.println("\nБЕГ на дистанцию");
@@ -58,9 +60,10 @@ abstract class Animal {
     protected double maxDistanceRun;            // максимальная дистанция, которую может пробежать
     protected double maxDistanceSwim;           //                                       проплыть
     protected double maxDistanceJump;           // максимальная высота, на которую может подпрыгнуть
-    // счетчики объектов должны быть static, иначе при создании нового объекта будет создаваться и новый счетчик
+    // счетчик объектов должен быть static, иначе при создании нового объекта каждый раз будет 
+    // создаваться новый счетчик, в конструкторе его значение будет увеличено на 1, и при попытке 
+    // получить данные через геттер всегда будет 1.
     private static int animalCounter;
-
 
     Animal (Creatures kind, double maxDistanceRun, double maxDistanceSwim, double maxDistanceJump) {
         this.kind = kind;
@@ -71,21 +74,25 @@ abstract class Animal {
     }
 
     abstract void run(double distanceRun);   // команда "бежать"
+
     abstract void swim(double distanceSwim); // команда "плыть"
-    /* Команду swim можно не включать в абстракт; тогда после создания объекта Кот, у которого этот метод не должен
-       давать результат, не будет появляться "подсказка" при вводе после точки в списке доступных методов.
-       Т.е. у кота вообще не будет метода swim. В этом случае метод придется переопределить. */
+    /* В зависимости от логики программы:
+       1) Команду swim можно не включать в абстракт, тогда у объекта Собака этот метод нужно будет создать дополнительно, 
+          а у объекта Кот метода не будет. 
+       2) Т.к. это абстракт, нужно будет переопределить методы. Для кота создать метод, который будет выводить сообщение,
+          что коты не плавают. */
+
     abstract void jump(double distanceJump); // команда "прыгать"
 
     // результат выполнения команды выводим в консоль
     // вид животного является полем, но совпадает с названием класса, поэтому его можно получить через методы
-    // класса Object (при преобразовании в строку - enum все буквы строчные, название класса - с первой заглавной буквы).
+    // класса Object (при преобразовании в строку: enum - все буквы строчные, название класса - с заглавной буквы).
     protected void printResult(Object obj, Actions action, String name, double distance, double maxDistance) {
-
         String strObj = obj.getClass().getName(); // получаем название класса объекта (содержит название пакета + имя класса)
         String kindOutOfObject = strObj.substring(strObj.lastIndexOf(".") + 1); // получаем из строки слово после последней точки
-
+        //результат выполнения команды (краткий вариант)
         String result = kindOutOfObject + "(" + distance + "):" + (distance <= maxDistance);
+        //описание выполнения команды (развернутый вариант)
         String detales =
                 switch (kind) {
                     case cat -> "Кот ";
@@ -99,23 +106,23 @@ abstract class Animal {
                     case JUMP -> "подпрыгнул на ";
                 } + distance + " м.";
 
-        System.out.printf("%-20s\t%s\n", result, detales);
+        System.out.printf("%-20s\t%s\n", result, detales); // вывод с интервалом (tab) и выравниванием 
     }
 
-    public int getAnimalCounter() {
+    public static int getAnimalCounter() {
         return animalCounter;
     }
 }
 
 class Dog extends Animal {
-    private String name;
+    private final String name; // не предполагается менять имя (нет сеттера, поле private), поэтому final
     private static int dogCounter;
+
     Dog (String name, double maxDistanceRun, double maxDistanceSwim, double maxDistanceJump) {
         super(Creatures.dog, maxDistanceRun, maxDistanceSwim, maxDistanceJump);
         this.name = name;
         dogCounter++;
     }
-
     @Override
     void run(double distance) {
         printResult(this, Actions.RUN, name, distance, maxDistanceRun);
@@ -131,15 +138,14 @@ class Dog extends Animal {
         printResult(this, Actions.JUMP, name, distance, maxDistanceJump);
     }
 
-    public int getDogCounter() {
+    public static int getDogCounter() {
         return dogCounter;
     }
 }
 
 
 class Cat extends Animal {
-    private String name;
-
+    private String name; // не предполагается менять имя (нет сеттера, поле private), поэтому final
     private static int catCounter;
 
     Cat(String name, double maxDistanceRun, double maxDistanceJump) {
@@ -161,7 +167,7 @@ class Cat extends Animal {
         printResult(this, Actions.JUMP, name, distance, maxDistanceJump);
     }
 
-    public int getCatCounter() {
+    public static int getCatCounter() {
         return catCounter;
     }
 }
