@@ -2,20 +2,16 @@ package ru.geekbrains.java.java1;
 
 public class FullName {
 
-    // поля класса private (доступ через set / get)
+    // поля класса private
+    // доступ к полям только для записи (setter)
+    // геттер отдает только значение полного имени
     private String firstName;
     private String lastName;
     private String patronim;
 
-    public void setFirstName(String firstName) {
+    FullName (String firstName, String lastName, String patronim) {
         this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public void setPatronim(String patronim) {
         this.patronim = patronim;
     }
 

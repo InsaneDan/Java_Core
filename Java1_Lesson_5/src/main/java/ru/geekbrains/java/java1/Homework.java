@@ -20,12 +20,13 @@ public class Homework {
         int selectAge = 40;
 
         // создаем организацию, содержащую список сотрудников, у каждого из которых есть свои свойства
+        // список сотрудников заполняется при инициализации класса
         Organization someOrg = new Organization();
 
-        // объект - сотрудник
+        // объект - сотрудник; переменная для перебора (доступа к разным сотрудникам) в цикле
         Employee fellowWorker = new Employee();
 
-        System.out.println("\n\nСписок сотрудников " + someOrg.getOrgTitle() + " старше 40 лет:");
+        System.out.println("\n\nСписок сотрудников " + Organization.getOrgTitle() + " старше 40 лет:");
 
         for (int i = 0; i < 5; i++) {
             fellowWorker = someOrg.getPersonalDataFromID(i);
@@ -35,3 +36,4 @@ public class Homework {
         }
     }
 }
+

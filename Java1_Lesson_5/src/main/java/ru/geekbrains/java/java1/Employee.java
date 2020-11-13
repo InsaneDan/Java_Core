@@ -2,17 +2,15 @@ package ru.geekbrains.java.java1;
 
 public class Employee {
 
-    // поля класса public
-    private FullName classFIO = new FullName();
     private String strFIO;
     private String position, email, mobilePhoneNumber;
-    private float salary;
+    public double salary;
     private int age;
 
     // перегрузка конструкторов
     public Employee() {};
 
-    public Employee(String strFIO, String position, String email, String mobilePhoneNumber, float salary, int age) {
+    public Employee(String strFIO, String position, String email, String mobilePhoneNumber, double salary, int age) {
         this.strFIO = strFIO;
         this.position = position;
         this.email = email;
@@ -53,15 +51,15 @@ public class Employee {
         this.mobilePhoneNumber = mobilePhoneNumber;
     }
 
-    public float getSalary() {
+    public double getSalary() {
         return salary;
     }
 
-    public void setSalary(float salary) {
+    public void setSalary(double salary) {
         this.salary = salary;
     }
 
-    public float getAge() {
+    public int getAge() {
         return age;
     }
 
@@ -70,7 +68,7 @@ public class Employee {
     }
 
     public void printPersonalData() {
-        System.out.printf("ФИО: %25s | Возраст: %5d | Должность: %25s | Телефон: %13s | E-mail: %15s \n", strFIO, age, position, mobilePhoneNumber, email);
+        System.out.printf("ФИО: %-25s | Возраст: %5d | Должность: %-25s | Телефон: %13s | E-mail: %-30s | Salary: %10.2f\n", strFIO, age, position, mobilePhoneNumber, email, salary);
     }
 
 
