@@ -21,11 +21,14 @@ public class Animals {
         Dog dogCyber = new Dog("Кибердог", 50000, 1000, 2.5);
         Dog dogVeryOld = new Dog("Старик", 50, 1, 0.2);
 
-        // вместо cat1.getAnimalCounter() можно использовать любой из созданных объектов, они все могут использовать
-        // метод суперкласса getAnimalCounter(); соответственно и для вывода значения счетчика котов или собак можно
-        // использовать любой из объектов Cat (для котов) и Dog (для собак).
+
+        // метод getAnimalCounter() в классе Animal (а также catCount и dogCount в своих классах) объявлены как static,
+        // доступ к нему можем получить через класс-потомок или через объекты:
+        // Animal.getAnimalCounter() - обращение к static методу абстрактного класса
+        // Dog.getDogCounter() - обращение к static методу private-package класса
+        // cat1.getCatCounter() - обращение к static методу private-package класса через объект
         System.out.println();
-        System.out.println("В нашем зоопарке сейчас " + cat1.getAnimalCounter() + " животных. Из них собак - " + dogOrdinary.getDogCounter() + ", котов - " + cat1.getCatCounter());
+        System.out.println("В нашем зоопарке сейчас " + Animal.getAnimalCounter() + " животных. Из них собак - " + Dog.getDogCounter() + ", котов - " + cat1.getCatCounter());
         System.out.println("\nПриступим к тренировке...");
 
         System.out.println("\nБЕГ на дистанцию");
@@ -107,7 +110,8 @@ abstract class Animal {
         System.out.printf("%-20s\t%s\n", result, detales); // вывод с интервалом (tab) и выравниванием 
     }
 
-    public int getAnimalCounter() {
+
+    public static int getAnimalCounter() {
         return animalCounter;
     }
 }
@@ -136,7 +140,8 @@ class Dog extends Animal {
         printResult(this, Actions.JUMP, name, distance, maxDistanceJump);
     }
 
-    public int getDogCounter() {
+
+    public static int getDogCounter() {
         return dogCounter;
     }
 }
@@ -165,7 +170,8 @@ class Cat extends Animal {
         printResult(this, Actions.JUMP, name, distance, maxDistanceJump);
     }
 
-    public int getCatCounter() {
+
+    public static int getCatCounter() {
         return catCounter;
     }
 }
