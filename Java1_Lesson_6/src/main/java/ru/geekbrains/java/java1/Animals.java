@@ -21,6 +21,7 @@ public class Animals {
         Dog dogCyber = new Dog("Кибердог", 50000, 1000, 2.5);
         Dog dogVeryOld = new Dog("Старик", 50, 1, 0.2);
 
+
         // метод getAnimalCounter() в классе Animal (а также catCount и dogCount в своих классах) объявлены как static,
         // доступ к нему можем получить через класс-потомок или через объекты:
         // Animal.getAnimalCounter() - обращение к static методу абстрактного класса
@@ -109,6 +110,7 @@ abstract class Animal {
         System.out.printf("%-20s\t%s\n", result, detales); // вывод с интервалом (tab) и выравниванием 
     }
 
+
     public static int getAnimalCounter() {
         return animalCounter;
     }
@@ -138,6 +140,7 @@ class Dog extends Animal {
         printResult(this, Actions.JUMP, name, distance, maxDistanceJump);
     }
 
+
     public static int getDogCounter() {
         return dogCounter;
     }
@@ -166,6 +169,7 @@ class Cat extends Animal {
     void jump(double distance) {
         printResult(this, Actions.JUMP, name, distance, maxDistanceJump);
     }
+
 
     public static int getCatCounter() {
         return catCounter;
