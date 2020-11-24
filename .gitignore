@@ -1,4 +1,3 @@
-
-/Java1_Lesson_*/*
-
-!/Java1_Lesson_*/src/
+pom.xml
+*/.idea/*
+/Java1*/**
