@@ -1,3 +1,5 @@
 pom.xml
-*/.idea/*
-/Java1*/**
+*.iml
+*/.idea/**
+*/target/**
+
