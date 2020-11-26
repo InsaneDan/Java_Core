@@ -12,25 +12,27 @@ import java.util.Random;
 
 public class Contest {
 
+    private static final int taskAmount = 5; // int count = 5; из метода main
+
     public static void main(String[] args) {
 
         Random random = new Random();
 
         // массив участников
         Contestant[] contestants = {
-                new Cat("Котяра", 200 + random.nextInt(300), 2 + random.nextInt(10) / 10),
-                new Human("Иван", 400 + random.nextInt(600), 1 + random.nextInt(5) / 10),
-                new Robot("R2B2", 800 + random.nextInt(200), 1 + random.nextInt(10) / 10),
+                new Cat("Котяра", 200 + random.nextInt(300), 2 + random.nextDouble()),
+                new Human("Иван", 400 + random.nextInt(600), .7 + random.nextDouble()),
+                new Robot("R2B2", 800 + random.nextInt(200), 3 + random.nextDouble()),
         };
 
         // массив препятствий: (псевдо) случайный выбор препятствия + небольшая вариабельность значений
-        int count = 5;
-        Task[] tasks = new Task[count];
-        for (int i = 0; i < count; i++) {
+        // int count = 5; // OKrylov: лучше вынести в static final поле класса - константу. Говорящие название констант лучше, чем просто цифры по коду (в этом примере в целом и так ок)
+        Task[] tasks = new Task[taskAmount];
+        for (int i = 0; i < taskAmount; i++) {
             if (random.nextInt(100) % 2 == 0) {
                 tasks[i] = new Track(random.nextInt(1000));
             } else {
-                tasks[i] = new Wall(0.5 + random.nextInt(15)/10);
+                tasks[i] = new Wall(0.5 + random.nextDouble() * 2);
             }
         }
 
@@ -49,23 +51,28 @@ public class Contest {
         }
 
         // подводим итоги - количество непустых ячеек массива и формируем строку из имен оставшихся участников
-        String str = "";
-        int j = 0;
-        for (int i = 0; i < contestants.length; i++) {
-            if (contestants[i] != null) {
-                str = str + ", " + contestants[i].getInfo();
-                contestants[i] = null;
-                j++;
+        // String str = ""; // OKrylov: лучше переименовать в winnersInfo
+        // OKrylov: луше переименовать в winnerCount
+        // int j = 0;
+        StringBuilder sb = new StringBuilder();
+        int winnerCount = 0;
+        // for (int i = 0; i < contestants.length; i++) { // заменила на for-each
+        for (Contestant contestant : contestants) {
+            if (contestant != null) {
+                sb.append(", ").append(contestant.getInfo());
+                // contestants[i] = null; // OKrylov: здесь уже очищать элемент массива необязательно, дальнейшая логика метода это не учитывает
+                winnerCount++;
             }
         }
+        String winnersInfo = sb.toString();
 
         // финальное сообщение
         System.out.println();
-        if (j != 0) {
-            str = str.substring(3);
-            System.out.printf("Осталось участников - %d \n" + str, j);
+        if (winnerCount != 0) {
+            winnersInfo = winnersInfo.substring(2); // OKrylov: лучше вынести в приватный метод removeCommaPrefix, 5 минут гадал, что мы тут делаем)
+            System.out.printf("Осталось участников: %d \n" + winnersInfo, winnerCount);
         } else {
-            System.out.printf("Все участники выбыли из состязаний");
+            System.out.println("Все участники выбыли из состязаний");
         }
         System.out.println();
     }
@@ -73,32 +80,35 @@ public class Contest {
 
 /* КОНСОЛЬ
 
-"C:\Program Files\Java\jdk-15\bin\java.exe" "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.2.2\lib\idea_rt.jar=65433:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.2.2\bin" -Dfile.encoding=UTF-8 -classpath "C:\GeekBrains\JAVA\JAVA 2\target\classes" Lesson1.homework.Contest
+"C:\Program Files\Java\jdk-15\bin\java.exe" "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.2.2\lib\idea_rt.jar=59898:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.2.2\bin" -Dfile.encoding=UTF-8 -classpath "C:\GeekBrains\JAVA\JAVA 2\target\classes" Lesson1.homework.Contest
 
 Прохождение препятствий
 
 Этап 1
-Высота стенки 0,5 м. Кот Котяра может прыгнуть на 2,0 м. Участник успешно перепрыгнул препятствие.
-Высота стенки 0,5 м. Человек Иван может прыгнуть на 1,0 м. Участник успешно перепрыгнул препятствие.
-Высота стенки 0,5 м. Робот R2B2 может прыгнуть на 1,0 м. Участник успешно перепрыгнул препятствие.
+Длина беговой дорожки 113 м. Кот Котяра может пробежать 256 м. Участник успешно пробежал дистанцию.
+Длина беговой дорожки 113 м. Человек Иван может пробежать 931 м. Участник успешно пробежал дистанцию.
+Длина беговой дорожки 113 м. Робот R2B2 может пробежать 978 м. Участник успешно пробежал дистанцию.
 Этап 2
-Высота стенки 0,5 м. Кот Котяра может прыгнуть на 2,0 м. Участник успешно перепрыгнул препятствие.
-Высота стенки 0,5 м. Человек Иван может прыгнуть на 1,0 м. Участник успешно перепрыгнул препятствие.
-Высота стенки 0,5 м. Робот R2B2 может прыгнуть на 1,0 м. Участник успешно перепрыгнул препятствие.
+Высота стенки 1,2 м. Кот Котяра может прыгнуть на 2,3 м. Участник успешно перепрыгнул препятствие.
+Высота стенки 1,2 м. Человек Иван может прыгнуть на 1,6 м. Участник успешно перепрыгнул препятствие.
+Высота стенки 1,2 м. Робот R2B2 может прыгнуть на 3,0 м. Участник успешно перепрыгнул препятствие.
 Этап 3
-Высота стенки 0,5 м. Кот Котяра может прыгнуть на 2,0 м. Участник успешно перепрыгнул препятствие.
-Высота стенки 0,5 м. Человек Иван может прыгнуть на 1,0 м. Участник успешно перепрыгнул препятствие.
-Высота стенки 0,5 м. Робот R2B2 может прыгнуть на 1,0 м. Участник успешно перепрыгнул препятствие.
+Высота стенки 0,6 м. Кот Котяра может прыгнуть на 2,3 м. Участник успешно перепрыгнул препятствие.
+Высота стенки 0,6 м. Человек Иван может прыгнуть на 1,6 м. Участник успешно перепрыгнул препятствие.
+Высота стенки 0,6 м. Робот R2B2 может прыгнуть на 3,0 м. Участник успешно перепрыгнул препятствие.
 Этап 4
-Длина беговой дорожки 936 м. Кот Котяра может пробежать 437 м. Участник не пробежал дистанцию.
-Участник выбывает из состязаний!
-Длина беговой дорожки 936 м. Человек Иван может пробежать 680 м. Участник не пробежал дистанцию.
-Участник выбывает из состязаний!
-Длина беговой дорожки 936 м. Робот R2B2 может пробежать 914 м. Участник не пробежал дистанцию.
-Участник выбывает из состязаний!
+Высота стенки 1,0 м. Кот Котяра может прыгнуть на 2,3 м. Участник успешно перепрыгнул препятствие.
+Высота стенки 1,0 м. Человек Иван может прыгнуть на 1,6 м. Участник успешно перепрыгнул препятствие.
+Высота стенки 1,0 м. Робот R2B2 может прыгнуть на 3,0 м. Участник успешно перепрыгнул препятствие.
 Этап 5
+Высота стенки 2,3 м. Кот Котяра может прыгнуть на 2,3 м. Участник успешно перепрыгнул препятствие.
+Высота стенки 2,3 м. Человек Иван может прыгнуть на 1,6 м. Участник не перепрыгнул препятствие.
+Участник выбывает из состязаний!
+Высота стенки 2,3 м. Робот R2B2 может прыгнуть на 3,0 м. Участник успешно перепрыгнул препятствие.
 
-Все участники выбыли из состязаний
+Осталось участников: 2
+Кот Котяра, Робот R2B2
 
 Process finished with exit code 0
+
  */

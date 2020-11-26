@@ -6,7 +6,7 @@ public class Robot implements Contestant {
     private final int runMaxDistance;
     private final double jumpMaxHeight;
     private final String kindName = Kinds.ROBOT.toString();
-    private boolean isOut = false;
+    // private boolean isOut = false; // OKrylov: не используется
 
     public Robot(String name, int runMaxDistance, double jumpMaxHeight) {
         this.name = name;

@@ -6,7 +6,7 @@ public class Cat implements Contestant {
     private final int runMaxDistance;
     private final double jumpMaxHeight;
     private final String kindName = Kinds.CAT.toString();
-    private boolean isOut = false;
+    // private boolean isOut = false; // OKrylov: не используется
 
     public Cat(String name, int runMaxDistance, double jumpMaxHeight) {
         this.name = name;

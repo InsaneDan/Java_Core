@@ -14,7 +14,7 @@ public class Track implements Task {
     public boolean performTask(Contestant contestant) {
         System.out.printf("Длина беговой дорожки %d м. ", length);
         boolean result = contestant.run() > length;
-        System.out.println("Участник " + (result ? "успешно " : "не ") + Actions.RUN.toString() + " дистанцию.");
+        System.out.println("Участник " + (result ? "успешно " : "не ") + Actions.RUN.getRusWord() + " дистанцию.");
         return result;
     }
 }

@@ -10,15 +10,13 @@ public class Wall implements Task {
         this.height = height;
     }
 
-    public double getHeight() {
-        return height;
-    }
+    // public double getHeight() { return height; }
 
     @Override
     public boolean performTask(Contestant contestant) {
         System.out.printf("Высота стенки %.1f м. ", height);
         boolean result = contestant.jump() > height;
-        System.out.println("Участник " + (result ? "успешно " : "не ") + Actions.JUMP.toString() + " препятствие.");
+        System.out.println("Участник " + (result ? "успешно " : "не ") + Actions.JUMP.getRusWord() + " препятствие.");
         return result;
     }
 }
