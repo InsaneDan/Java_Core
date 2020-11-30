@@ -1,3 +1,4 @@
+package Lesson1;
 
 import Lesson1.homework.contestants.Cat;
 import Lesson1.homework.contestants.Human;
