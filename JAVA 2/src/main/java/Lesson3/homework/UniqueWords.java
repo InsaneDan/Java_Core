@@ -1,45 +1,33 @@
 package Lesson3.homework;
 
-import java.util.*;
+import java.util.HashMap;
 
 public class UniqueWords {
 
     static String[] arr = {"один", "ДВА", "два", "три", "четыре", "пять", "пяТЬ", "ПЯть", "шесть", "семь", "восемь", "девять", "Десять", "десять"};
 
     public static void main(String[] args) {
-        Set<String> uniques = new HashSet<>();
-        Map<String, Integer> replicas = new HashMap<>();
-
-        for (String a : arr) {
-            a = a.toLowerCase(); // приводим к нижнему регистру, чтобы упростить сравнение: ДВА = два = дВа и т.д.
-            if (!uniques.add(a)) {
-                if (!replicas.containsKey(a)) {
-                    // если ключа нет в коллекции - добавляем и инициируем значение счетчика = 2;
-                    // т.к. первое встреченное слово в массиве сначала попадает в коллекцию uniques и не добавляется в replicas,
-                    // то это - первый дубликат, но второе (повторяющееся) слово в массиве
-                    replicas.put(a, 2);
-                } else {
-                    // такой ключ есть в коллекции - увеличиваем счетчик
-                    replicas.put(a, replicas.get(a) + 1);
-                }
-            }
+        HashMap<String, Integer> words = new HashMap<>();
+        for (String element : arr) {
+            element = element.toLowerCase();
+            words.merge(element, 1, Integer::sum);
         }
-
-        System.out.println("Уникальные слова в массиве: " + uniques);
-        System.out.println("Из них повторяются:");
-        for (Map.Entry<String, Integer> entry : replicas.entrySet()) {
-            System.out.println("Слово '" + entry.getKey() + "', количество повторов = " + entry.getValue());
-        }
+        words.forEach((k, v) -> System.out.println(k + ": " + v));
     }
 }
 
 /* КОНСОЛЬ
-"C:\Program Files\Java\jdk-15\bin\java.exe" "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.2.2\lib\idea_rt.jar=63970:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.2.2\bin" -Dfile.encoding=UTF-8 -classpath "C:\GeekBrains\JAVA\JAVA 2\target\classes" Lesson3.homework.UniqueWords
-Уникальные слова в массиве: [шесть, два, пять, один, девять, три, семь, восемь, десять, четыре]
-Из них повторяются:
-Слово 'два', количество повторов = 2
-Слово 'пять', количество повторов = 3
-Слово 'десять', количество повторов = 2
+"C:\Program Files\Java\jdk-15\bin\java.exe" "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.2.2\lib\idea_rt.jar=59564:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.2.2\bin" -Dfile.encoding=UTF-8 -classpath "C:\GeekBrains\JAVA\JAVA 2\target\classes" Lesson3.homework.UniqueWords
+шесть: 1
+два: 2
+пять: 3
+один: 1
+девять: 1
+три: 1
+восемь: 1
+семь: 1
+десять: 2
+четыре: 1
 
 Process finished with exit code 0
  */
