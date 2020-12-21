@@ -1,4 +1,4 @@
-package lesson3;
+package Lesson3.session;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;

@@ -1,4 +1,4 @@
-package lesson3.list;
+package Lesson3.session.list;
 
 import java.util.*;
 

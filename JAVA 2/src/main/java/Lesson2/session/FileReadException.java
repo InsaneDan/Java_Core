@@ -1,4 +1,4 @@
-package lesson2;
+package Lesson2.session;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

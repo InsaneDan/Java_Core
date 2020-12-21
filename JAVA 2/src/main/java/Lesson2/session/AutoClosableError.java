@@ -1,4 +1,4 @@
-package lesson2;
+package Lesson2.session;
 
 public class AutoClosableError implements AutoCloseable {
     @Override

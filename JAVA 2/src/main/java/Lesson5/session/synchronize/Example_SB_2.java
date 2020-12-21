@@ -1,4 +1,4 @@
-package lesson5.synchronize;
+package Lesson5.session.synchronize;
 
 public class Example_SB_2 {
 

@@ -1,4 +1,4 @@
-package lesson5.thread;
+package Lesson5.session.thread;
 
 public class TestCreateThread2 {
 
