@@ -68,35 +68,12 @@ public class MyServer {
     }
 
     public synchronized void broadcastMessage(String message, ClientHandler sender) throws IOException {
-
-// реализация пересылки ЛИЧНЫХ СООБЩЕНИЙ
-        String person = "";
-        String personalMessage = "";
-
-        // если сообщение, начинается с "/w", то парсим на части
-        // Note: в ClientHandler в начало сообщения добавили имя отправителя
-        if (message.contains(": /w ")) {
-            String[] parts = message.split(" ", 4);
-            person = parts[2];
-            personalMessage = parts[0] + " " + parts[3];
-        }
-
-        // пробегаем по списку клиентов
         for (ClientHandler client : clients) {
             if (client == sender) {
                 continue;
             }
 
-            // если получатель сообщения (person) не указан - отправляем всем
-            if (person.equals("")) {
-                client.sendMessage(message);
-            }
-            // если если указан получатель и никнейм совпадает с ником из списка - отправляем (остальных пропускаем)
-            else  {
-                if (client.getNickname().equals(person)) {
-                    client.sendMessage(personalMessage);
-                }
-            }
+            client.sendMessage(message);
         }
     }
 

@@ -82,9 +82,6 @@ public class ClientHandler {
             if (message.startsWith(END_CMD)) {
                 return;
             }
-            else if (message.startsWith("/w ")) {
-                myServer.broadcastMessage(nickname + ": " + message, this);
-            }
             else {
                 myServer.broadcastMessage(nickname + ": " + message, this);
             }
