@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="202.0" prefWidth="317.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lesson2.client.controllers.AuthController">
+   <children>
+      <Label layoutX="14.0" layoutY="27.0" text="Логин:" AnchorPane.leftAnchor="14.0" />
+      <Label layoutX="18.0" layoutY="58.0" text="Пароль:" AnchorPane.leftAnchor="14.0" />
+      <Label fx:id="nicknameLabel" layoutX="13.0" layoutY="89.0" text="Никнейм:" visible="false" AnchorPane.leftAnchor="14.0" />
+      <TextField fx:id="loginField" layoutX="86.0" layoutY="23.0" prefHeight="25.0" prefWidth="218.0" AnchorPane.topAnchor="23.0" />
+      <PasswordField fx:id="passwordField" layoutX="86.0" layoutY="54.0" prefHeight="25.0" prefWidth="218.0" AnchorPane.topAnchor="54.0" />
+      <TextField fx:id="nicknameField" layoutX="86.0" layoutY="89.0" prefHeight="25.0" prefWidth="218.0" visible="false" AnchorPane.topAnchor="85.0" />
+      <Button fx:id="authButton" layoutX="14.0" layoutY="151.0" mnemonicParsing="false" onAction="#executeAuth" prefHeight="25.0" prefWidth="127.0" text="Войти!" />
+      <Button fx:id="regButton" layoutX="176.0" layoutY="151.0" mnemonicParsing="false" onAction="#showNicknameField" prefHeight="25.0" prefWidth="127.0" text="Регистрация" />
+   </children>
+</AnchorPane>

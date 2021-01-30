@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lesson2.client.controllers.ViewController">
+   <children>
+      <MenuBar>
+         <menus>
+            <Menu disable="true" mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="New" />
+                  <MenuItem mnemonicParsing="false" text="Open…" />
+                  <Menu mnemonicParsing="false" text="Open Recent" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
+                  <MenuItem mnemonicParsing="false" text="Save As…" />
+                  <MenuItem mnemonicParsing="false" text="Revert" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Preferences…" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Quit" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Settings">
+               <items>
+                  <MenuItem fx:id="menuItemChangeNick" mnemonicParsing="false" onAction="#changeNickname" text="Change nickname" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="Undo" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="Redo" />
+                  <SeparatorMenuItem disable="true" mnemonicParsing="false" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="Cut" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="Copy" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="Paste" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="Delete" />
+                  <SeparatorMenuItem disable="true" mnemonicParsing="false" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="Select All" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="Unselect All" />
+               </items>
+            </Menu>
+            <Menu disable="true" mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <AnchorPane VBox.vgrow="ALWAYS">
+          <children>
+              <SplitPane dividerPositions="0.3" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <items>
+                      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="400.0" minWidth="150.0">
+                          <children>
+                              <ListView fx:id="usersList" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                          </children>
+                  </AnchorPane>
+                      <AnchorPane minHeight="150.0" minWidth="150.0">
+                          <children>
+                              <SplitPane dividerPositions="0.9" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                  <items>
+                                      <VBox>
+                                          <children>
+                                    <HBox fx:id="boxNickname" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="0.0" visible="false">
+                                       <children>
+                                          <TextField fx:id="changeNicknameField" onAction="#applyNicknameChange" promptText="Insert your new nickname here" HBox.hgrow="ALWAYS" />
+                                          <Region prefWidth="10.0" />
+                                          <Button fx:id="btnApplyNicknameChange" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#applyNicknameChange" prefWidth="60.0" text="Apply" HBox.hgrow="ALWAYS" />
+                                          <Region prefWidth="10.0" />
+                                          <Button fx:id="btnCancelNicknameChange" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#cancelNicknameChange" prefWidth="60.0" text="Cancel" HBox.hgrow="ALWAYS" />
+                                          <Region prefWidth="10.0" />
+                                       </children>
+                                    </HBox>
+                                              <HBox fx:id="chatTitle" alignment="CENTER" maxHeight="-Infinity" prefHeight="25.0">
+                                       <children>
+                                          <Region HBox.hgrow="ALWAYS" />
+                                                      <Label alignment="CENTER" text="Чат">
+                                                          <font>
+                                                              <Font size="18.0" />
+                                                          </font>
+                                                      </Label>
+                                          <Region HBox.hgrow="ALWAYS" />
+                                       </children>
+                                              </HBox>
+                                              <TextArea fx:id="chatHistory" editable="false" wrapText="true" VBox.vgrow="ALWAYS" />
+                                          </children>
+                                      </VBox>
+                                      <AnchorPane>
+                                          <children>
+                                              <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                  <children>
+                                                      <TextField fx:id="textField" maxHeight="1.7976931348623157E308" onAction="#sendMessage" promptText="Insert your message here" HBox.hgrow="ALWAYS" />
+                                          <Region prefWidth="10.0" />
+                                                      <Button fx:id="sendButton" alignment="CENTER" maxHeight="-Infinity" maxWidth="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#sendMessage" text="Send" HBox.hgrow="NEVER" />
+                                          <Region prefWidth="10.0" />
+                                                  </children>
+                                              </HBox>
+                                          </children>
+                                      </AnchorPane>
+                                  </items>
+                              </SplitPane>
+                          </children>
+                      </AnchorPane>
+                  </items>
+              </SplitPane>
+          </children>
+      </AnchorPane>
+   </children>
+</VBox>
