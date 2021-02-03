@@ -1,4 +1,4 @@
-![Java logo](https://github.com/InsaneDan/java/blob/master/java_logo.png) 
+![Java logo](https://github.com/InsaneDan/InsaneDan/blob/main/java_logo.png) 
 # Java core (Table of Contents)
 
 ## [Java 1](#java-1-1)
